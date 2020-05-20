@@ -1,0 +1,86 @@
+create database TABAQUERIA 
+go
+use TABAQUERIA;
+go
+/*******************  CREACION DE LAS TABLAS  *******************/
+-- TABLA TRABAJADOR--
+create table Trabajador(
+Rut_Tra int primary key not null,
+DigVer varchar(1),
+Edad_Tra  int, 
+Horas_trab int,
+Nombre_Tra  varchar(50),
+Ape_Pat_Tra varchar(20),
+Ape_Mat_Tra varchar(20)
+)
+-- TABLA VENTA --
+create table venta(
+ID_Venta int primary key not null,
+Rut_Tra2 int foreign key references Trabajador(Rut_Tra),
+Fecha_Venta date,
+Hora_venta time
+)
+-- TABLA TIPO DE PRODUCTO --
+create table Tipo_Producto(
+ID_Tipo_Prod int primary key not null,
+Tipo_Producto varchar(50)
+)
+-- TABLA MARCA DE PRODUCTO --
+create table Marca(
+ID_Marca int primary key not null,
+Nombre_Marca varchar(30)
+)
+-- TABLA DE PRODUCTO --
+create table Producto(
+ID_Producto int primary key not null,
+ID_Tipo_Prod2 int foreign key references Tipo_Producto(ID_Tipo_Prod),
+ID_Marca2 int foreign key references marca(ID_Marca),
+Fecha_elab date,
+Fecha_venci date,
+stock_min int,
+Precio_Venta int,
+Nombre_Prod varchar(50)
+)
+-- TABLA DE REGISTRO DE VENTA --
+create table registroVenta(
+ID_RegistroV int primary key not null,
+ID_Venta int foreign key references venta(id_venta),
+ID_Prod2  int foreign key references producto(ID_Producto),
+Cant_Prod int
+)
+-- TABLA TIPO DE EMPRESA --
+create table Tipo_Empresa(
+ID_Tipo_Emp int primary key not null,
+Tipo_Emp varchar(50)
+)
+
+-- TABLA COMUNA --
+create table Comuna(
+ID_Comuna int primary key not null,
+Comuna varchar(50)
+)
+-- TABLA DISTRIBUIDOR --
+create table distribuidor(
+Rut_Empresa int primary key not null,
+ID_Tipo_m2 int foreign key references Tipo_Empresa(ID_Tipo_Emp),
+ID_Comuna2 int foreign key references comuna(ID_Comuna),
+Nombre_Emp varchar(30),
+Calle_Emp varchar(30),
+Contacto_Emp int,
+num_calle int
+)
+-- TABLA PROVEE --
+create table provee(
+ID_Provee int primary key not null,
+Rut_Emp_2 int foreign key references distribuidor(Rut_Empresa),
+Fecha_Compra date,
+Fecha_Venlote date,
+Valor_Producto int
+)
+-- TABLA REGISTRO DE PROVISION --
+create table Registro_Provision(
+ID_Regis_Prov int primary key not null,
+ID_Provee2 int foreign key references provee(ID_Provee),
+ID_Producto3 int foreign key references producto(ID_Producto),
+Cant_Prod_Prov int)
+
